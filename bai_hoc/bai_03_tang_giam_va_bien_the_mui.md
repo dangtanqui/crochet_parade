@@ -24,6 +24,7 @@ dc4inc    # 4 mũi dc vào cùng 1 chân
 ```
 
 **Công thức chung:**
+
 ```
 [tên_mũi][số_mũi]inc
 ```
@@ -33,19 +34,12 @@ dc4inc    # 4 mũi dc vào cùng 1 chân
 ```
 ring
 sc6inc
-sc2inc,sc2inc,sc2inc,sc2inc,sc2inc,sc2inc
+6sc2inc
 ```
 
 **Kết quả:**
 - Vòng 1: 6 sc vào ring
 - Vòng 2: Mỗi mũi sc cũ móc 2 mũi mới → 12 sc
-
-**Viết ngắn gọn hơn:**
-```
-ring
-sc6inc
-[sc2inc]*6    # hoặc 6sc2inc
-```
 
 ### Increase phân bố đều
 
@@ -54,7 +48,7 @@ sc6inc
 **"Móc (n/k - 1) mũi bình thường, rồi increase, lặp lại k lần"**
 
 ```
-[(n/k − 1) sc, inc] * k
+[(n/k − 1) sc, sc2inc] * k
 ```
 
 **Ví dụ:** Tăng 6 mũi trên vòng có 12 mũi:
@@ -78,6 +72,7 @@ dc4tog    # Giảm 4 dc thành 1
 ```
 
 **Công thức chung:**
+
 ```
 [tên_mũi][số_mũi]tog
 ```
@@ -86,8 +81,8 @@ dc4tog    # Giảm 4 dc thành 1
 
 ```
 ring
-sc6inc
-6sc2inc
+sc6inc        # 6 mũi
+6sc2inc       # 12 mũi
 [sc2tog]*6    # Giảm từ 12 → 6 mũi
 sc6tog        # Giảm từ 6 → 1 mũi
 ```
@@ -112,26 +107,21 @@ ring
 sc6inc                 # Vòng 1: 6 mũi
 [sc2inc]*6             # Vòng 2: 12 mũi
 [sc,sc2inc]*6          # Vòng 3: 18 mũi
-[2sc,sc2inc]*6         # Vòng 4: 24 mũi
+[sc,sc2inc,sc]*6       # Vòng 4: 24 mũi
 [3sc,sc2inc]*6         # Vòng 5: 30 mũi
-[4sc,sc2inc]*6         # Vòng 6: 36 mũi
-[5sc]*6                # Vòng 7-12: giữ 36 mũi
-[5sc]*6
-[5sc]*6
-[5sc]*6
-[5sc]*6
-[5sc]*6
-[4sc,sc2tog]*6         # Vòng 13: 30 mũi
-[3sc,sc2tog]*6         # Vòng 14: 24 mũi
-[2sc,sc2tog]*6         # Vòng 15: 18 mũi
-[sc,sc2tog]*6          # Vòng 16: 12 mũi
-[sc2tog]*6             # Vòng 17: 6 mũi
+[2sc,sc2inc,2sc]*6     # Vòng 6: 36 mũi
+[6sc]*6                # Vòng 7: giữ 36 mũi
+[2sc,sc2tog,2sc]*6     # Vòng 8: 30 mũi
+[3sc,sc2tog]*6         # Vòng 9: 24 mũi
+[sc,sc2tog,sc]*6       # Vòng 10: 18 mũi
+[sc,sc2tog]*6          # Vòng 11: 12 mũi
+[sc2tog]*6             # Vòng 12: 6 mũi
 ```
 
 **Giải thích:**
 - Vòng 1-6: **Tăng** để tạo bán cầu dưới
-- Vòng 7-12: **Giữ** số mũi (phần thân)
-- Vòng 13-17: **Giảm** để đóng bán cầu trên
+- Vòng 7: **Giữ** số mũi (phần thân)
+- Vòng 8-12: **Giảm** để đóng bán cầu trên
 
 ## 4. Front Loop / Back Loop (`fl` / `bl`)
 
@@ -140,6 +130,7 @@ sc6inc                 # Vòng 1: 6 mũi
 Loop: vòng móc
 
 Mỗi mũi móc có hình chữ V ở trên cùng, gồm 2 vòng:
+
 - **Front loop (vòng trước)** - gần về phía bạn
 - **Back loop (vòng sau)** - xa về phía sau
 
@@ -166,7 +157,8 @@ dcbl    # Double crochet back loop only
 # Khăn có texture gân nổi
 20ch,turn
 [sk,ch,19scbl,turn
-]*10
+]*9
+sk,ch,19scbl
 ```
 
 **Kết quả:** Mỗi hàng móc vào back loop → tạo gân nằm ngang rõ nét.
@@ -178,6 +170,7 @@ dcbl    # Double crochet back loop only
 Post: trụ/thân mũi
 
 Móc **quanh thân mũi** (post) thay vì móc vào đỉnh mũi:
+
 - **Front post (fp)** - kim móc đi từ phía trước ra sau
 - **Back post (bp)** - kim móc đi từ phía sau ra trước
 
@@ -202,15 +195,12 @@ bpdc    # Back post double crochet
 
 ```
 # Ribbing pattern
-20ch,turn
-sk,ch,19dc,turn
-[sk,ch,fpdc,bpdc,fpdc,bpdc,fpdc,bpdc,fpdc,bpdc,fpdc,bpdc,turn
-]*10
+21ch,turn
+sk,ch,20dc,turn
+[sk,ch,[fpdc,bpdc]*10,turn
+]*9
+sk,ch,[fpdc,bpdc]*10
 ```
-
-**Giải thích:**
-- Hàng đầu: dc bình thường
-- Các hàng sau: xen kẽ fpdc và bpdc → tạo gân dọc
 
 ## 6. Tổng hợp: Các loại biến thể mũi
 
@@ -235,25 +225,21 @@ sk,ch,19dc,turn
 ```
 # Vòng tròn phẳng 6 vòng
 ring
-6sc                    # V1: 6
-[sc2inc]*6             # V2: 12
-[sc,sc2inc]*6          # V3: 18
-[2sc,sc2inc]*6         # V4: 24
-[3sc,sc2inc]*6         # V5: 30
-[4sc,sc2inc]*6         # V6: 36
+sc6inc                 # V2: 6
+[sc2inc]*6             # V3: 12
+[sc,sc2inc]*6          # V4: 18
+[sc,sc2inc,sc]*6       # V5: 24
+[3sc,sc2inc]*6         # V6: 30
+[2sc,sc2inc,2sc]*6     # V7: 36
 ```
-
-**Quy luật:**
-- Vòng n: `[(n-1)sc, sc2inc]*6`
-- Số mũi vòng n: `n * 6`
 
 </details>
 
 ### Bài tập 2: Hình trụ (Cylinder)
 
 **Yêu cầu:** Viết pattern hình trụ (móc tròn không tăng giảm):
-- Vòng 1-2: Tạo đáy (tăng từ 6 → 12 → 18)
-- Vòng 3-8: Giữ 18 mũi (thân)
+- Vòng 1-2-3: Tạo đáy (tăng từ 6 → 12 → 18)
+- Vòng 4-9: Giữ 18 mũi (thân)
 
 <details>
 <summary>Đáp án</summary>
@@ -261,10 +247,11 @@ ring
 ```
 # Hình trụ
 ring
-6sc                    # V1: 6
+sc6inc                 # V1: 6
 [sc2inc]*6             # V2: 12
 [sc,sc2inc]*6          # V3: 18
-[18sc                  # V4-8: giữ 18
+18scbl                 # V4: giữ 18
+[18sc                  # V5-9: giữ 18
 ]*5
 ```
 
@@ -291,129 +278,29 @@ sk,ch,24scbl
 
 ### Bài tập 4: Đọc hiểu pattern
 
-**Yêu cầu:** Pattern sau tạo hình gì? Tính số mũi mỗi vòng.
+**Yêu cầu:** Tính số mũi mỗi vòng.
 
 ```
 ring
-6sc
-[sc2inc]*6
-[2sc]*12
-[sc,sc2tog]*6
+sc6inc
+6sc2inc
+12sc
+6sc2tog
 ```
 
 <details>
 <summary>Đáp án</summary>
-
-**Hình dạng:** Hình bán cầu (bowl/cup)
 
 **Số mũi:**
-- Vòng 1: 6 sc
-- Vòng 2: 12 sc (tăng)
-- Vòng 3: 24 sc (giữ, viết ngắn gọn)
-- Vòng 4: 12 sc (giảm)
-
-**Lưu ý:** Vòng 3 có `[2sc]*12` = `2sc` lặp 12 lần = 24 mũi.
-
-</details>
-
-## Bài tập nâng cao
-
-### Challenge 1: Hình nón (Cone)
-
-**Yêu cầu:** Tạo pattern hình nón bằng cách tăng dần đều:
-- Vòng 1-2: Đáy tròn (6 → 12)
-- Vòng 3-7: Tăng 6 mũi mỗi vòng
-
-<details>
-<summary>Đáp án</summary>
-
-```
-# Hình nón
-ring
-6sc                    # V1: 6
-[sc2inc]*6             # V2: 12
-[sc,sc2inc]*6          # V3: 18
-[2sc,sc2inc]*6         # V4: 24
-[3sc,sc2inc]*6         # V5: 30
-[4sc,sc2inc]*6         # V6: 36
-[5sc,sc2inc]*6         # V7: 42
-```
-
-</details>
-
-### Challenge 2: Amigurumi đầu đơn giản
-
-**Yêu cầu:** Viết pattern đầu amigurumi cơ bản:
-- Tăng 6 vòng (6 → 36)
-- Giữ 4 vòng (36 mũi)
-- Giảm 6 vòng (36 → 6)
-
-<details>
-<summary>Đáp án</summary>
-
-```
-# Đầu amigurumi
-ring
-6sc                    # V1: 6
-[sc2inc]*6             # V2: 12
-[sc,sc2inc]*6          # V3: 18
-[2sc,sc2inc]*6         # V4: 24
-[3sc,sc2inc]*6         # V5: 30
-[4sc,sc2inc]*6         # V6: 36
-[6sc                   # V7-10: giữ 36
-]*4
-[4sc,sc2tog]*6         # V11: 30
-[3sc,sc2tog]*6         # V12: 24
-[2sc,sc2tog]*6         # V13: 18
-[sc,sc2tog]*6          # V14: 12
-[sc2tog]*6             # V15: 6
-```
-
-</details>
-
-### Challenge 3: Ribbing pattern (gân dọc)
-
-**Yêu cầu:** Viết pattern có gân dọc (xen kẽ fp và bp):
-- Móc nền: 20 chain
-- Hàng 1: dc bình thường
-- Hàng 2-10: xen kẽ fpdc và bpdc
-
-<details>
-<summary>Đáp án</summary>
-
-```
-# Ribbing (gân dọc)
-20ch,turn
-sk,ch,19dc,turn
-[sk,ch,[fpdc,bpdc]*9,fpdc,turn
-]*9
-```
-
-**Giải thích:**
-- Hàng 1: 19 dc (nền để móc post)
-- Hàng 2-10: Lặp `[fpdc,bpdc]` → tạo gân dọc
+- Vòng 1: 1 ring
+- Vòng 2: 6 sc
+- Vòng 3: 12 sc (tăng)
+- Vòng 4: 12 sc (giữ)
+- Vòng 5: 12 sc (giảm)
 
 </details>
 
 ## Pattern thực tế
-
-### Pattern 1: Mũ beanie đơn giản (phần đầu)
-
-```
-# Mũ beanie - Phần đỉnh
-COLOR: Gray
-ring
-6sc
-[sc2inc]*6             # 12
-[sc,sc2inc]*6          # 18
-[2sc,sc2inc]*6         # 24
-[3sc,sc2inc]*6         # 30
-[4sc,sc2inc]*6         # 36
-[5sc,sc2inc]*6         # 42
-[6sc,sc2inc]*6         # 48
-[8sc                   # Giữ 48 mũi cho phần thân
-]*15
-```
 
 ### Pattern 2: Túi nhỏ (pouch)
 
@@ -421,12 +308,11 @@ ring
 # Túi nhỏ hình trụ
 COLOR: Pink
 ring
-6sc
+sc6inc
 [sc2inc]*6             # 12
 [sc,sc2inc]*6          # 18
 [2sc,sc2inc]*6         # 24
-[24scbl                # Back loop → tạo đường viền
-]
+24scbl                 # Back loop → tạo đường viền
 [24sc                  # Thân túi
 ]*10
 ```

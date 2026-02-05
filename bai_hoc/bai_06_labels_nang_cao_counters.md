@@ -56,7 +56,7 @@ $index=10$   # Khởi tạo index = 10
 
 ```
 $k=0$
-sc.A[k],sc.A[k],sc.A[k]
+sc.A[k]*3
 ```
 
 **Kết quả:** `sc.A[0],sc.A[0],sc.A[0]`  
@@ -70,7 +70,7 @@ sc.A[k],sc.A[k],sc.A[k]
 
 ```
 $k=0$
-sc.A[k++],sc.A[k++],sc.A[k++]
+[sc.A[k++]]*3
 ```
 
 **Kết quả:** `sc.A[0],sc.A[1],sc.A[2]`
@@ -110,7 +110,7 @@ sc.A[++k],sc.A[++k],sc.A[++k]
 
 ```
 $k=5$
-sc.A[k--],sc.A[k--],sc.A[k--]
+[sc.A[k--]]*3
 ```
 
 **Kết quả:** `sc.A[5],sc.A[4],sc.A[3]`
@@ -119,7 +119,7 @@ sc.A[k--],sc.A[k--],sc.A[k--]
 
 ```
 $k=5$
-sc.A[--k],sc.A[--k],sc.A[--k]
+[sc.A[--k]]*3
 ```
 
 **Kết quả:** `sc.A[4],sc.A[3],sc.A[2]`
@@ -132,9 +132,17 @@ next k    # = ++k (tăng trước)
 ```
 
 **Ví dụ:**
+
 ```
 $k=0$
 sc.A[k],sc.A[next k],sc.A[prev k]
+```
+
+Tương đương với:
+
+```
+$k=0$
+sc.A[k],sc.A[++k],sc.A[--k]
 ```
 
 **Kết quả:** `sc.A[0],sc.A[1],sc.A[0]`
@@ -171,7 +179,7 @@ $k=0$
 
 ```
 $k=0$
-[3]sc.A[k++]
+[3sc].A[k++]
 ```
 
 **Kết quả:** Giống dạng 2 - `sc.A[0],sc.A[0],sc.A[0]`
@@ -230,7 +238,7 @@ $k=3$
 k+1        # Cộng
 k-1        # Trừ
 k*2        # Nhân
-k/2        # Chia
+k/2        # Chia lấy nguyên
 k%6        # Chia lấy dư
 (k+1)*2    # Kết hợp
 ```
@@ -253,7 +261,7 @@ INDEX_ARRAY: tên_biến={giá_trị_1,giá_trị_2,...}
 ```
 INDEX_ARRAY: k={4,3,1,2,0}
 
-sc.A[k],sc.A[k],sc.A[k],sc.A[k],sc.A[k]
+5*sc.A[k++]
 ```
 
 **Kết quả:** `sc.A[4],sc.A[3],sc.A[1],sc.A[2],sc.A[0]`
@@ -263,18 +271,6 @@ sc.A[k],sc.A[k],sc.A[k],sc.A[k],sc.A[k]
 - Lần 2: Lấy giá trị thứ 2 = 3
 - Lần 3: Lấy giá trị thứ 3 = 1
 - ...
-
-### Sử dụng với `k++`
-
-```
-INDEX_ARRAY: k={10,20,30}
-
-sc.A[k++],sc.A[k++],sc.A[k++]
-```
-
-**Kết quả:** `sc.A[10],sc.A[20],sc.A[30]`
-
-**Giải thích:** `k++` = "lấy giá trị hiện tại từ mảng, rồi tiến sang giá trị tiếp theo"
 
 ### Khi nào dùng INDEX_ARRAY?
 
@@ -314,14 +310,14 @@ $k=0$
 
 **Yêu cầu:** Tính kết quả:
 
-**a)** `$k=0$; [sc.A[k++]]*3`  
-**b)** `$k=0$; [sc.A[++k]]*3`  
+**a:** `$k=0$; [sc.A[k++]]*3`  
+**b:** `$k=0$; [sc.A[++k]]*3`  
 
 <details>
 <summary>Đáp án</summary>
 
-**a)** `sc.A[0],sc.A[1],sc.A[2]`  
-**b)** `sc.A[1],sc.A[2],sc.A[3]`  
+**a:** `sc.A[0],sc.A[1],sc.A[2]`  
+**b:** `sc.A[1],sc.A[2],sc.A[3]`  
 
 </details>
 
@@ -329,37 +325,18 @@ $k=0$
 
 **Yêu cầu:** Tính kết quả:
 
-**a)** `$k=0$; 3*sc.A[k++]`  
-**b)** `$k=0$; 3sc.A[k++]`  
+**a:** `$k=0$; 3*sc.A[k++]`  
+**b:** `$k=0$; 3sc.A[k++]`  
 
 <details>
 <summary>Đáp án</summary>
 
-**a)** `sc.A[0],sc.A[1],sc.A[2]` (tăng counter)  
-**b)** `sc.A[0],sc.A[0],sc.A[0]` (không tăng)  
+**a:** `sc.A[0],sc.A[1],sc.A[2]` (tăng counter)  
+**b:** `sc.A[0],sc.A[0],sc.A[0]` (không tăng)
 
 </details>
 
-### Bài tập 4: Granny square với counter
-
-**Yêu cầu:** Viết pattern vòng 1 của granny square (4 góc) với counter:
-- Ring
-- 4 nhóm: 3 dc, 3 chain (Corner[0-3])
-- Nối về góc đầu
-
-<details>
-<summary>Đáp án</summary>
-
-```
-ring
-$k=0$
-[3dc,3ch.Corner[k++]]*4
-ss@Corner[0]
-```
-
-</details>
-
-### Bài tập 5: Modulo arithmetic
+### Bài tập 4: Modulo arithmetic
 
 **Yêu cầu:** Viết pattern móc 10 sc, gắn label A[0-5] lặp lại:
 - sc.A[0], sc.A[1], ..., sc.A[5], sc.A[0], sc.A[1], ...
@@ -376,7 +353,7 @@ $k=0$
 
 </details>
 
-### Bài tập 6: INDEX_ARRAY
+### Bài tập 5: INDEX_ARRAY
 
 **Yêu cầu:** Sử dụng INDEX_ARRAY để tạo thứ tự: 5, 3, 1, 2, 4
 
@@ -407,35 +384,16 @@ INDEX_ARRAY: k={5,3,1,2,4}
 
 ```
 ring
+sc6inc
 $k=0$
-[5ch.Petal[k++],ss@[0,0]]*6
+[5ch.Petal[k],ss@[1,k++]]*6
 $m=0$
 [5sc@Petal[m++]]*6
 ```
 
 </details>
 
-### Challenge 2: Zigzag với counters
-
-**Yêu cầu:** Viết pattern zigzag, đánh số đỉnh và đáy:
-- 20 chain
-- Hàng 1: Đánh dấu các đỉnh (Peak[0-4])
-- Hàng 2: Móc vào các đỉnh với counter
-
-<details>
-<summary>Đáp án</summary>
-
-```
-20ch
-$k=0$
-[2sc.Peak[k++],sk]*5
-$m=0$
-[3dc@Peak[m++]]*5
-```
-
-</details>
-
-### Challenge 3: Complex indexing
+### Challenge 2: Complex indexing
 
 **Yêu cầu:** Tạo pattern với thứ tự: 0,2,4,1,3,5
 - Dùng INDEX_ARRAY
@@ -446,65 +404,12 @@ $m=0$
 
 ```
 INDEX_ARRAY: k={0,2,4,1,3,5}
-
+$m=0$
+6*ch.A[m++],turn
 [sc.A[k++]]*6
 ```
 
-**Kết quả:** `sc.A[0],sc.A[2],sc.A[4],sc.A[1],sc.A[3],sc.A[5]`
-
 </details>
-
-## Pattern thực tế
-
-### Pattern 1: Granny square hoàn chỉnh (Round 1-3)
-
-```
-# Granny square với counters
-COLOR: Blue
-
-# Round 1
-ring
-$k=0$
-[3dc,3ch.Corner[k++]]*4
-ss@Corner[0]
-
-# Round 2
-$k=0$
-[3dc@Corner[k],3ch.Corner[k],3dc@Corner[k++],3ch]*4
-ss@Corner[0]
-
-# Round 3
-$k=0$
-[3dc@Corner[k],3ch.Corner[k],3dc@Corner[k++],3dc,3ch]*4
-ss@Corner[0]
-```
-
-### Pattern 2: Mesh với counters
-
-```
-# Mesh pattern
-20ch
-$k=0$
-[dc,2ch.Space[k++]]*10
-
-# Row 2
-$m=0$
-[dc@Space[m++],2ch.Space[m]]*10
-```
-
-### Pattern 3: Amigurumi với labeled increases
-
-```
-# Amigurumi head - đánh dấu vị trí tăng
-ring
-6sc
-
-$k=0$
-[sc2inc.Inc[k++]]*6        # V2: 12 (đánh dấu 6 vị trí tăng)
-
-$k=0$
-[sc,sc2inc.Inc[k++]]*6     # V3: 18
-```
 
 ## Tổng kết bài học
 

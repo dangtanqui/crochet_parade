@@ -3,6 +3,7 @@
 ## Mục tiêu bài học
 
 Sau bài học này, bạn sẽ:
+
 - Hiểu lệnh `turn` để lật hàng móc
 - Biết cách móc vòng tròn với `ring`
 - Hiểu khái niệm "hướng móc" (direction of sequential attachment)
@@ -14,6 +15,7 @@ Sau bài học này, bạn sẽ:
 ### Tại sao cần `turn`?
 
 Khi móc hình chữ nhật/vuông, bạn móc qua lại giữa các hàng:
+
 - Hàng 1: móc từ **phải → trái**
 - Hàng 2: lật ngược, móc từ **trái → phải**
 - Hàng 3: lật lại, móc từ **phải → trái**
@@ -24,8 +26,8 @@ Lệnh `turn` báo cho CrochetPARADE biết bạn đã lật hàng.
 
 ```
 10ch,turn
-9sc,turn
-9sc
+sk,ch,9sc,turn
+sk,ch,9sc
 ```
 
 ⚠️ **Quy tắc quan trọng:**
@@ -33,14 +35,9 @@ Lệnh `turn` báo cho CrochetPARADE biết bạn đã lật hàng.
 - Sau `turn` phải xuống dòng mới
 
 **SAI:**
-```
-10ch,turn,9sc  # ❌ Không được viết liền sau turn
-```
 
-**ĐÚNG:**
 ```
-10ch,turn
-9sc
+10ch,turn,sk,ch,9sc,turn,sk,ch,9sc  # ❌ Không được viết liền sau turn
 ```
 
 ### Ví dụ: Khăn hình chữ nhật có turn
@@ -55,6 +52,7 @@ sk,ch,9sc
 ```
 
 **Giải thích:**
+
 - `10ch,turn`: Móc nền 10 chain, rồi lật
 - `sk,ch`: Bỏ qua 1 mũi, móc 1 chain để tăng chiều cao
 - `9sc`: Móc 9 mũi sc
@@ -67,13 +65,14 @@ sk,ch,9sc
 ### Ví dụ đơn giản
 
 ```
-10ch
-sk,8sc
+10ch,turn
+sk,9sc
 ```
 
 **Kết quả:**
+
 - Hàng 0: 10 chain
-- Hàng 1: Bỏ mũi chain đầu tiên, móc 8 sc vào 8 chain còn lại
+- Hàng 1: Bỏ mũi chain đầu tiên, móc 9 sc vào 9 chain còn lại
 
 ### Tại sao cần `sk`?
 
@@ -84,8 +83,8 @@ sk,8sc
 ### Ví dụ: Tạo khoảng trống
 
 ```
-15ch
-3sc,2sk,5sc,2sk,3sc
+16ch,turn
+sk,ch,3sc,2sk,5sc,2sk,3sc
 ```
 
 → Tạo 2 khoảng trống (mỗi khoảng 2 mũi)
@@ -96,12 +95,13 @@ sk,8sc
 - **Nối đầu và cuối vòng** khi móc tròn
 - **Di chuyển** đến vị trí khác mà không tăng chiều cao
 
+> Lưu ý: Mũi trượt ở ngoài thật và trong mô phỏng khác nhau, cần custom lại mũi này. Nó nên là nối 2 đầu mũi với 0 chiều cao, 0 chiều rộng và không tính là 1 mũi
+
 ### Ví dụ: Nối vòng
 
 ```
 ring
-6sc
-ss@[0,0]  # Nối với mũi đầu tiên
+sc6inc,ss@[1,0]  # Nối với mũi đầu tiên
 ```
 
 ## 4. Móc vòng tròn với `ring`
@@ -112,28 +112,22 @@ ss@[0,0]  # Nối với mũi đầu tiên
 
 ```
 ring
-6sc
+sc6inc,ss@[1,0]
 ```
 
 **Kết quả:** 6 mũi sc móc vào vòng tròn ma thuật
 
+> Lưu ý: Vòng tròn ma thuật ở ngoài thật và trong mô phỏng tính số hàng khác nhau, cần custom lại mũi này. Nó nên là sc6ring và gồm 2 hàng trên, nhưng kết quả tính nên là 1 hàng
+
 ### Ví dụ: Móc hình tròn đơn giản (flat circle)
 
 ```
-# Vòng tròn phẳng 3 hàng
+# Vòng tròn phẳng 4 hàng
 ring
-6sc
-12sc
-18sc
+sc6inc
+6sc2inc
+[sc,sc2inc]*6
 ```
-
-**Giải thích:**
-- Vòng 0 (round 0): magic ring
-- Vòng 1: 6 sc vào ring
-- Vòng 2: 12 sc (tăng đều, mỗi mũi cũ móc 2 mũi mới)
-- Vòng 3: 18 sc (tăng đều)
-
-⚠️ **Lưu ý:** Đây chỉ là ví dụ số lượng mũi. Để tạo vòng tròn phẳng đều, cần dùng kỹ thuật increase chính xác (sẽ học ở Bài 3).
 
 ## 5. Hướng móc (Direction of Sequential Attachment)
 
@@ -149,18 +143,19 @@ CrochetPARADE **tự động suy luận hướng móc** dựa trên số lần `
 ### Ví dụ minh họa
 
 ```
-10ch,turn          # Hàng 0
-9sc,turn           # Hàng 1
-9sc                # Hàng 2
+10ch,turn          # Hàng 1
+9sc,turn           # Hàng 2
+9sc                # Hàng 3
 ```
 
 **Phân tích:**
-- **Hàng 1:** Có 1 lệnh `turn` trước nó (ở cuối hàng 0) → móc **ngược**
-- **Hàng 2:** Có 2 lệnh `turn` trước nó (cuối hàng 0 và hàng 1) → móc **xuôi**
+- **Hàng 1:** Có 1 lệnh `turn` trước nó (ở cuối hàng 1) → móc **ngược**
+- **Hàng 2:** Có 2 lệnh `turn` trước nó (ở cuối hàng 2) → móc **xuôi**
 
 ### Tại sao cần hiểu hướng móc?
 
 Hướng móc ảnh hưởng đến:
+
 1. **Attachment tự động** - mũi móc vào đâu theo mặc định
 2. **Đếm mũi** - thứ tự các mũi
 3. **Labels** (sẽ học ở Bài 5-7)
@@ -177,6 +172,7 @@ Khi hàng móc quá dài, dùng `...` ở đầu dòng mới để nối tiếp:
 ```
 
 **Tương đương với:**
+
 ```
 5ch,3sc,2dc,4hdc,3tr,2dc,5sc
 ```
@@ -198,7 +194,7 @@ sk,ch,14sc
 
 1. `15ch,turn`: Móc nền 15 chain, lật
 2. `sk,ch,14sc,turn`: 
-   - `sk`: Bỏ mũi chain cuối (đã dùng để lật)
+   - `sk`: Bỏ mũi chain cuối
    - `ch`: Chain để tăng chiều cao
    - `14sc`: Móc 14 mũi sc
    - `turn`: Lật hàng
@@ -211,20 +207,33 @@ sk,ch,14sc
 # Pattern: Vòng tròn phẳng
 COLOR: Pink
 ring
-6sc
-12sc
-18sc
-24sc
-30sc
-36sc
+sc6inc
+6sc2inc
+[sc,sc2inc]*6
+[sc,sc2inc,sc]*6
+[3sc,sc2inc]*6
+[2sc,sc2inc,2sc]*6
 ```
 
 **Giải thích:**
 - Mỗi vòng tăng 6 mũi để giữ phẳng
-- Vòng 1: 6 sc
-- Vòng 2: 12 sc (tăng gấp đôi)
-- Vòng 3: 18 sc (tăng 6 mũi)
-- ...
+- Vòng 1: vòng tròn ma thuật
+- Vòng 2: Móc 6 mũi đơn vào vòng tròn ma thuật
+- Vòng 3: Móc tăng ở tất cả các mũi
+- Vòng 4: Lặp lại 6 lần:
+  - móc 1 sc
+  - rồi móc tăng 1 lần (inc)
+- Vòng 5: Lặp lại 6 lần:
+  - móc 1 sc
+  - rồi móc tăng 1 lần
+  - rồi móc 1 sc
+- Vòng 6: Lặp lại 6 lần:
+  - móc 3 sc
+  - rồi móc tăng 1 lần
+- Vòng 7: Lặp lại 6 lần:
+  - móc 2 sc
+  - rồi móc tăng 1 lần
+  - rồi móc 2 sc
 
 ## Bài tập thực hành
 
@@ -244,67 +253,22 @@ sk,ch,11sc
 ```
 
 **Giải thích:**
+
 - Hàng móc nền: 12 chain
 - 11 hàng móc (mỗi hàng 11 sc + 1 ch tăng chiều cao)
 - Mỗi hàng có `turn` trừ hàng cuối
 
 </details>
 
-### Bài tập 2: Móc vòng tròn
-
-**Yêu cầu:** Viết pattern móc vòng tròn có 5 vòng, mỗi vòng tăng 6 mũi.
-
-<details>
-<summary>Đáp án</summary>
-
-```
-# Pattern: Vòng tròn 5 vòng
-ring
-6sc
-12sc
-18sc
-24sc
-30sc
-```
-
-</details>
-
-### Bài tập 3: Skip và wrap
-
-**Yêu cầu:** Viết pattern:
-- Hàng nền: 20 chain
-- Hàng 1: Bỏ 2 mũi đầu, móc 10 sc, bỏ 2 mũi, móc 6 sc
-- Hàng 2: 15 sc (không skip)
-
-<details>
-<summary>Đáp án</summary>
-
-**Cách 1 (không wrap):**
-```
-20ch
-2sk,10sc,2sk,6sc
-15sc
-```
-
-**Cách 2 (có wrap cho dễ đọc):**
-```
-20ch
-2sk,10sc
-... 2sk,6sc
-15sc
-```
-
-</details>
-
-### Bài tập 4: Đọc hiểu turn
+### Bài tập 2: Đọc hiểu turn
 
 **Yêu cầu:** Phân tích pattern sau, cho biết hàng nào móc xuôi, hàng nào móc ngược:
 
 ```
-8ch,turn      # Hàng 0
-7sc,turn      # Hàng 1
+8ch,turn      # Hàng 1
 7sc,turn      # Hàng 2
-7sc           # Hàng 3
+7sc,turn      # Hàng 3
+7sc           # Hàng 4
 ```
 
 <details>
@@ -312,101 +276,17 @@ ring
 
 | Hàng | Số `turn` trước nó | Hướng móc |
 |------|-------------------|-----------|
-| Hàng 0 | 0 | Xuôi (mặc định) |
-| Hàng 1 | 1 (từ hàng 0) | **Ngược** |
-| Hàng 2 | 2 (từ hàng 0 và 1) | **Xuôi** |
-| Hàng 3 | 3 (từ hàng 0, 1, 2) | **Ngược** |
+| Hàng 1 | 0 | Xuôi (mặc định) |
+| Hàng 2 | 1 (từ hàng 1) | **Ngược** |
+| Hàng 3 | 2 (từ hàng 1 và 2) | **Xuôi** |
+| Hàng 4 | 3 (từ hàng 1, 2, 3) | **Ngược** |
 
 **Quy luật:**
+
 - Số `turn` chẵn → móc xuôi
 - Số `turn` lẻ → móc ngược
 
 </details>
-
-## Bài tập nâng cao
-
-### Challenge 1: Zigzag pattern
-
-**Yêu cầu:** Tạo pattern móc hình zigzag đơn giản:
-- Hàng nền: 15 chain
-- Hàng 1: 3 sc, bỏ 2, 3 sc, bỏ 2, 3 sc
-- Hàng 2: 3 sc, bỏ 2, 3 sc, bỏ 2, 3 sc
-- Hàng 3: Giống hàng 1
-
-<details>
-<summary>Đáp án</summary>
-
-```
-# Pattern: Zigzag đơn giản
-15ch,turn
-sk,3sc,2sk,3sc,2sk,3sc,turn
-3sc,2sk,3sc,2sk,3sc,turn
-3sc,2sk,3sc,2sk,3sc
-```
-
-**Lưu ý:** Đây là pattern đơn giản hóa. Thực tế zigzag cần điều chỉnh vị trí tăng/giảm mũi chính xác hơn.
-
-</details>
-
-### Challenge 2: Móc spiral (xoắn ốc)
-
-**Yêu cầu:** Móc vòng tròn xoắn ốc (không nối cuối vòng):
-- Ring
-- 6 vòng, mỗi vòng 12 mũi sc
-
-<details>
-<summary>Đáp án</summary>
-
-```
-# Pattern: Spiral đơn giản
-ring
-[12sc
-]*6
-```
-
-**Giải thích:**
-- Không có `ss` để nối vòng
-- Móc liên tục không ngắt → tạo hình xoắn ốc
-- Thực tế: cần marker để đánh dấu đầu vòng
-
-</details>
-
-## Các mẫu pattern thực tế
-
-### Pattern 1: Khăn mặt (Washcloth)
-
-```
-# Washcloth 25x25
-COLOR: Blue
-25ch,turn
-[sk,ch,24sc,turn
-]*24
-sk,ch,24sc
-```
-
-### Pattern 2: Đĩa lót ly (Coaster) - Vòng tròn
-
-```
-# Coaster - Vòng tròn phẳng
-COLOR: Green
-ring
-6sc
-12sc
-18sc
-24sc
-30sc
-36sc
-```
-
-### Pattern 3: Móc dải viền (Border strip)
-
-```
-# Border strip 50 mũi
-50ch
-49sc
-49sc
-49sc
-```
 
 ## Tổng kết bài học
 

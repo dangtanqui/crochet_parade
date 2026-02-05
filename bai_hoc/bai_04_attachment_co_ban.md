@@ -3,6 +3,7 @@
 ## Mục tiêu bài học
 
 Sau bài học này, bạn sẽ:
+
 - Hiểu khái niệm "attachment point" (điểm gắn kết)
 - Sử dụng attachment tuyệt đối: `@[row,stitch]`
 - Sử dụng attachment tương đối: `@[@+n]`
@@ -36,6 +37,7 @@ CrochetPARADE tự động gắn mũi theo **thứ tự liên tiếp**:
 ### Khi nào cần chỉ định attachment?
 
 Khi bạn muốn móc **không theo thứ tự**:
+
 - Móc vào mũi ở hàng xa hơn (long stitch)
 - Móc nhiều mũi vào cùng 1 chân (cluster)
 - Móc vào khoảng chain space
@@ -48,31 +50,17 @@ Khi bạn muốn móc **không theo thứ tự**:
 ### Ví dụ minh họa
 
 ```
-10ch        # Hàng 0 (row 0)
-9sc         # Hàng 1 (row 1)
-9dc         # Hàng 2 (row 2)
+10ch        # Hàng 1 - row 0
+9sc         # Hàng 2 - row 1
+9dc         # Hàng 3 - row 2
 ```
-
-**Đánh số mũi trong hàng:**
-
-Hàng 0 (`10ch`):
-- Mũi 0: chain đầu tiên
-- Mũi 1: chain thứ 2
-- ...
-- Mũi 9: chain cuối cùng
-
-Hàng 1 (`9sc`):
-- Mũi 0: sc đầu tiên
-- Mũi 1: sc thứ 2
-- ...
-- Mũi 8: sc cuối cùng
 
 ### Đếm ngược (Negative indexing)
 
 Dùng số âm để đếm từ cuối:
-- `-1`: Hàng/mũi cuối cùng
-- `-2`: Hàng/mũi áp cuối
-- `-3`: Hàng/mũi thứ 3 từ cuối
+- `-1`: Hàng/mũi trước đó (thứ 2 từ cuối)
+- `-2`: Hàng/mũi thứ 3 từ cuối
+- `-3`: Hàng/mũi thứ 4 từ cuối
 
 ## 3. Attachment tuyệt đối: `@[row,stitch]`
 
@@ -83,39 +71,29 @@ mũi@[hàng,mũi]
 ```
 
 **Ví dụ:**
+
 ```
 dc@[0,3]
 ```
-→ Móc dc vào mũi thứ 3 (thứ 4 tính từ 1) của hàng 0
+
+→ Móc dc vào mũi thứ 4 của hàng 1
 
 ### Ví dụ 1: Long stitch
 
 ```
-10ch
-9sc
-dc@[0,4]    # Móc dc vào chain thứ 4 của hàng 0
+10ch,turn
+sk,ch,9sc,turn
+dc,dc@[0,4] # Móc dc vào chain thứ 5 của hàng 1
 ```
 
-**Giải thích:**
-- Hàng 2 có 2 mũi: 1 dc tự động (vào hàng 1) + 1 dc vào hàng 0
+→ Hàng 3 có 2 mũi: 1 dc tự động (vào hàng 2) + 1 dc vào hàng 1
 
-### Ví dụ 2: Móc ngược về hàng trước
-
-```
-15ch
-5sc,5dc,4sc
-2sc,dc@[0,7],3sc
-```
-
-**Giải thích:**
-- Hàng 2: Móc 2 sc bình thường, rồi 1 dc móc vào chain thứ 7 của hàng 0
-
-### Ví dụ 3: Đếm ngược
+### Ví dụ 2: Đếm ngược
 
 ```
-10ch
-9sc
-dc@[-1,0]    # Móc vào mũi đầu tiên của hàng trước (-1)
+10ch,turn
+sk,ch,9sc,turn
+dc@[-1,0]      # Móc vào mũi đầu tiên của hàng trước
 ```
 
 → `[-1,0]` = hàng trước (row 1), mũi đầu tiên (stitch 0)
@@ -129,53 +107,51 @@ dc@[-1,0]    # Móc vào mũi đầu tiên của hàng trước (-1)
 ### Cú pháp
 
 ```
-@[@]        # Gắn vào cùng vị trí mũi trước
-@[@+1]      # Tiến 1 mũi
-@[@+2]      # Tiến 2 mũi
+@[@]        # Gắn vào cùng vị trí mũi trước (giống như inc)
+@[@+1]      # Tiến 1 mũi (giống như auto - k có gì khác biệt)
+@[@+2]      # Tiến 2 mũi (giống như thêm 1 sk)
 @[@-1]      # Lùi 1 mũi
 ```
 
 ### Ví dụ 1: Móc 2 mũi vào cùng 1 chân
 
 ```
-10ch
-sc@[@],sc@[@]    # 2 sc móc vào cùng 1 chain
+10ch,turn
+sk,ch,3sc,sc@[@]    # 2 sc móc vào cùng 1 chain
 ```
-
-**Giải thích:**
-- Mũi sc đầu tiên móc vào chain 0 (tự động)
-- `@[@]`: Móc vào cùng vị trí → chain 0
-- Kết quả: 2 sc vào chain 0
 
 **So sánh với increase:**
+
 ```
-sc2inc    # Cũng là 2 sc vào cùng 1 chân
+10ch,turn
+sk,sh,3sc,sc2inc    # Cũng là 2 sc vào cùng 1 chân
 ```
+
 → `sc2inc` ngắn gọn hơn!
 
 ### Ví dụ 2: Bỏ mũi (skip) bằng attachment
 
 ```
-10ch
-sc,sc@[@+2],sc
+10ch,turn
+sk,ch,sc,sc@[@+2],sc
 ```
 
 **Giải thích:**
-- Mũi sc thứ 1: móc vào chain 0
-- `@[@+2]`: Tiến 2 mũi → móc vào chain 2 (bỏ chain 1)
-- Mũi sc thứ 3: móc tiếp vào chain 3
+- Mũi sc thứ 1: móc vào chain 9
+- `@[@+2]`: Tiến 2 mũi → móc vào chain 7 (bỏ chain 8)
+- Mũi sc thứ 3: móc tiếp vào chain 6
 
 **Tương đương với:**
 ```
-10ch
-sc,sk,sc,sc
+10ch,turn
+sk,ch,sc,sk,2sc
 ```
 
 ### Ví dụ 3: Cluster stitch (móc 3 vào 1)
 
 ```
-10ch
-3sc@[@],@[@],@[@]    # 3 sc vào cùng 1 chain
+10ch,turn
+sk,ch,3sc,sc@[@],sc@[@]    # 3 sc vào cùng 1 chân
 ```
 
 ## 5. Current position với `%`
@@ -183,17 +159,17 @@ sc,sk,sc,sc
 ### Khái niệm
 
 `%` = **hàng hiện tại** (current row)  
-`%-n` = **mũi hiện tại trừ n**
+`%-n` = **mũi hiện tại trừ n vị trí về trước**
 
 ### Ví dụ 1: Gắn vào hàng hiện tại
 
 ```
-10ch
-sc,dc@[%,%-3],sc
+10ch,turn
+sk,5sc,dc@[%,%-3],sc
 ```
 
 **Giải thích:**
-- `[%,%-3]`: Hàng hiện tại, mũi cách 3 vị trí về trước
+- `[%,%-3]`: Hàng hiện tại, mũi hiện tại cách 3 vị trí về trước
 - Mũi dc móc vào chính hàng 1, cách 3 mũi về trước
 
 ### Ví dụ 2: Picot stitch
@@ -207,10 +183,11 @@ sc,dc@[%,%-3],sc
 - Móc slip stitch vào 4 mũi về trước (tạo vòng picot)
 
 **Pattern thực tế:**
+
 ```
 DEF: picot3=3ch,ss@[%,%-4]
-10ch
-5sc,picot3,4sc
+10ch,turn
+sk,5sc,picot3,4sc
 ```
 
 ## 6. Attachment theo loại mũi: `@[type:row,stitch]`
@@ -222,27 +199,25 @@ DEF: picot3=3ch,ss@[%,%-4]
 ### Cú pháp
 
 ```
+@[ch:row,stitch]    # Đếm chỉ ch
 @[sc:row,stitch]    # Đếm chỉ sc
 @[dc:row,stitch]    # Đếm chỉ dc
-@[ch:row,stitch]    # Đếm chỉ chain
 ```
 
 ### Ví dụ 1: Móc vào sc thứ 3 của hàng trước
 
 ```
-10ch
-3sc,4dc,2sc
-dc@[sc:-1,2]    # Móc vào sc thứ 3 (index 2) của hàng trước
+10ch,turn
+sk,ch,3sc,4dc,2sc,turn
+sk,ch,dc@[sc:-1,2]     # Móc vào sc thứ 3 của hàng trước
 ```
-
-**Giải thích:**
-- Hàng 1 có: 3 sc + 4 dc + 2 sc
-- `[sc:-1,2]`: Chỉ đếm sc → sc thứ 3 = mũi sc cuối cùng (index 2 trong danh sách sc)
 
 ### Ví dụ 2: Kết hợp với attachment tương đối
 
 ```
-@[sc:@+1]    # Móc vào sc tiếp theo sau vị trí hiện tại
+10ch,turn
+sk,ch,3sc,6dc,turn
+sk,ch,sc@[sc:@+1]    # Móc vào sc tiếp theo sau vị trí hiện tại
 ```
 
 **Quy trình:**
@@ -262,16 +237,16 @@ Khi móc qua lại giữa nhiều hàng/vị trí, dùng **nhiều đầu gắn*
 ### Ví dụ: Móc xen kẽ 2 hàng
 
 ```
-10ch        # Hàng 0
-9sc         # Hàng 1
-sc@[-1,0],dc@1[-2,0],sc,dc@1[@1+1]
+10ch,turn                                # Hàng 1
+sk,ch,9sc,turn                           # Hàng 2
+sk,ch,sc@[-1,0],dc@1[-2,0],sc,dc@1[@1+1]
 ```
 
 **Giải thích:**
-- `@[-1,0]`: Đầu gắn 0 → hàng 1, mũi 0
-- `@1[-2,0]`: Đầu gắn 1 → hàng 0, mũi 0
-- `sc`: Tiếp tục trên đầu gắn 0 → hàng 1, mũi 1
-- `@1[@1+1]`: Tiếp tục trên đầu gắn 1 → hàng 0, mũi 1
+- `@[-1,0]`: Đầu gắn 0 → hàng 2, mũi 1
+- `@1[-2,0]`: Đầu gắn 1 → hàng 1, mũi 1
+- `sc`: Tiếp tục trên đầu gắn 0 → hàng 1, mũi 10? # WTF chưa hiểu
+- `@1[@1+1]`: Tiếp tục trên đầu gắn 1 → hàng 1, mũi 2
 
 → Móc xen kẽ giữa 2 hàng!
 
@@ -284,14 +259,14 @@ Dùng `@[...]` **không có mũi** để chỉ di chuyển attachment point.
 ### Ví dụ
 
 ```
-10ch
-sc,dc,@[@-1],tr
+10ch,turn
+sk,ch,sc,dc,@[@-1],tr
 ```
 
 **Tương đương với:**
 ```
-10ch
-sc,dc,tr@[@]
+10ch,turn
+sk,ch,sc,dc,tr@[@]
 ```
 
 **Giải thích:**
@@ -306,22 +281,22 @@ sc,dc,tr@[@]
 **Yêu cầu:** Viết pattern:
 - Hàng 0: 10 chain
 - Hàng 1: 9 sc
-- Hàng 2: 3 sc, 1 dc móc vào chain thứ 4 của hàng 0, 5 sc
+- Hàng 2: 3 sc, 1 dc móc vào chain thứ 5 của hàng 1, 5 sc
 
 <details>
 <summary>Đáp án</summary>
 
 ```
-10ch
-9sc
-3sc,dc@[0,4],5sc
+10ch,turn
+sk,ch,9sc,turn
+sk,ch,3sc,dc@[0,4],5sc
 ```
 
 </details>
 
 ### Bài tập 2: Cluster với attachment tương đối
 
-**Yêu cầu:** Viết pattern móc 3 dc vào cùng 1 chain:
+**Yêu cầu:** Viết pattern:
 - Hàng 0: 10 chain
 - Hàng 1: 2 sc, 3 dc vào chain thứ 3, 5 sc
 
@@ -329,21 +304,21 @@ sc,dc,tr@[@]
 <summary>Đáp án</summary>
 
 ```
-10ch
-2sc,dc,dc@[@],dc@[@],5sc
+10ch,turn
+sk,ch,4sc,dc,2dc@[@],4sc
 ```
 
 **Giải thích:**
-- `dc`: Móc dc đầu tiên (vào chain 2)
+- `dc`: Móc dc đầu tiên
 - `dc@[@]`: Móc dc thứ 2 vào cùng vị trí
 - `dc@[@]`: Móc dc thứ 3 vào cùng vị trí
-- `5sc`: Tiếp tục móc bình thường
 
 </details>
 
 ### Bài tập 3: Picot với current position
 
 **Yêu cầu:** Tạo picot-3 (3 chain nối lại thành vòng):
+
 - Định nghĩa stitch `picot3`
 - Sử dụng trong pattern
 
@@ -354,8 +329,8 @@ sc,dc,tr@[@]
 DEF: picot3=3ch,ss@[%,%-4]
 
 # Sử dụng
-15ch
-3sc,picot3,3sc,picot3,3sc,picot3,3sc
+15ch,turn
+sk,ch,[3sc,picot3]*3,2sc
 ```
 
 **Giải thích:**
@@ -367,21 +342,21 @@ DEF: picot3=3ch,ss@[%,%-4]
 ### Bài tập 4: Attachment theo loại mũi
 
 **Yêu cầu:** Viết pattern:
-- Hàng 0: 15 chain
-- Hàng 1: 3 sc, 5 dc, 3 sc, 3 hdc
-- Hàng 2: 2 sc, 1 dc móc vào dc thứ 3 của hàng 1
+- Hàng 1: 15 chain
+- Hàng 2: 3 sc, 5 dc, 3 sc, 3 hdc
+- Hàng 3: 2 sc, 1 dc móc vào dc thứ 3 của hàng 1
 
 <details>
 <summary>Đáp án</summary>
 
 ```
-15ch
-3sc,5dc,3sc,3hdc
-2sc,dc@[dc:-1,2]
+15ch,turn
+sk,ch,3sc,5dc,3sc,3hdc,turn
+sk,ch,2sc,dc@[dc:-1,2]
 ```
 
 **Giải thích:**
-- `[dc:-1,2]`: Hàng trước (-1), dc thứ 3 (index 2)
+- `[dc:-1,2]`: Hàng trước, dc thứ 3
 - Chỉ đếm dc, bỏ qua sc và hdc
 
 </details>
@@ -401,8 +376,8 @@ DEF: picot3=3ch,ss@[%,%-4]
 DEF: Vstitch=dc,ch,dc@[@]
 
 # Pattern
-10ch
-sk,[Vstitch,sk]*5
+10ch,turn
+sk,ch,[Vstitch,sk]*4,Vstitch
 ```
 
 **Giải thích:**
@@ -421,30 +396,17 @@ sk,[Vstitch,sk]*5
 <summary>Đáp án</summary>
 
 ```
-DEF: shell=5dc@[@],@[@],@[@],@[@],@[@]
+DEF: shell=dc,4dc@[@]
 
-# Pattern (sai, sửa lại)
-15ch
-2sc,[shell,2sk,2sc]*3
+20ch,turn
+sk,ch,2sc,[shell,2sk,2sc]*3,2sc
 ```
-
-**Sửa lại đúng:**
-```
-DEF: shell=dc,dc@[@],dc@[@],dc@[@],dc@[@]
-
-15ch
-2sc,[shell,2sk,2sc]*3
-```
-
-**Giải thích:**
-- Mũi dc đầu gắn tự động
-- 4 mũi dc sau gắn vào cùng vị trí với `@[@]`
 
 </details>
 
 ### Challenge 3: Bobble với attachment
 
-**Yêu cầu:** Tạo bobble-4 (4 dc incomplete, nối đỉnh lại):
+**Yêu cầu:** Tạo bobble-4 (4 dc cùng 1 mũi):
 - Sử dụng attachment để mô phỏng
 
 <details>
@@ -454,52 +416,15 @@ DEF: shell=dc,dc@[@],dc@[@],dc@[@],dc@[@]
 
 **Mô phỏng đơn giản:**
 ```
-DEF: bobble4=dc,dc@[@],dc@[@],dc@[@]
+DEF: bobble4=dc,3dc@[@]
 
-10ch
-5sc,bobble4,4sc
+10ch,turn
+sk,ch,4sc,bobble4,4sc
 ```
 
 **Thực tế:** Nên dùng `dc4bobble` có sẵn để có kết quả chính xác hơn.
 
 </details>
-
-## Pattern thực tế
-
-### Pattern 1: Mesh/Net stitch
-
-```
-# Mesh pattern - Mắt lưới
-20ch
-[dc,ch,sk]*10
-[[dc@[@+1],ch,sk]*10
-]*5
-```
-
-**Giải thích:**
-- Hàng 1: dc, chain, skip → tạo khoảng trống
-- Hàng 2+: dc móc vào chain space của hàng trước (`@[@+1]`)
-
-### Pattern 2: Long single crochet texture
-
-```
-# Texture với long sc
-15ch
-14sc
-[sc,sc,longsc@[0,0],sc,sc,longsc@[0,5],sc,sc,longsc@[0,10]
-]*5
-```
-
-**Giải thích:**
-- Móc sc bình thường xen kẽ long sc móc vào hàng móc nền (hàng 0)
-
-### Pattern 3: Granny square góc
-
-```
-# Granny square - 1 góc
-ring
-3ch,[3dc],3ch,[3dc],3ch,[3dc],3ch,ss@[0,0]
-```
 
 ## Tổng kết bài học
 

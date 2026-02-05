@@ -45,8 +45,8 @@ ch.Start    # Chain được gắn label Start
 ### Ví dụ 1: Đánh dấu mũi đầu/cuối
 
 ```
-10ch
-sc.Start,7sc,sc.End
+10ch,turn
+sk,sc.Start,7sc,sc.End
 ```
 
 **Giải thích:**
@@ -71,9 +71,9 @@ dc@Start    # Móc dc vào mũi có label Start
 ### Ví dụ 1: Móc về mũi đã đánh dấu
 
 ```
-10ch
-sc.A,8sc
-5sc,dc@A,3sc
+10ch,turn
+sk,sc.A,8sc,turn
+sk,5sc,dc@A,3sc
 ```
 
 **Giải thích:**
@@ -83,27 +83,12 @@ sc.A,8sc
 **So sánh với attachment tuyệt đối:**
 ```
 # Không dùng label
-10ch
-sc,8sc
-5sc,dc@[1,0],3sc    # Phải nhớ vị trí [1,0]
+10ch,turn
+sk,sc,8sc,turn
+sk,5sc,dc@[1,0],3sc    # Phải nhớ vị trí [1,0]
 ```
 
 → Label dễ đọc hơn!
-
-### Ví dụ 2: Nối đầu cuối vòng
-
-```
-ring
-6sc.Start
-ss@Start    # Nối với mũi đầu
-```
-
-**Tương đương với:**
-```
-ring
-6sc
-ss@[1,0]    # Phải tính index
-```
 
 ## 4. Label distribution (Phân phối nhãn)
 
@@ -171,7 +156,7 @@ Móc vào labeled group → CrochetPARADE **phân bố đều** các mũi mới 
 ### Ví dụ 1: Móc vào chain space
 
 ```
-5ch.A
+5ch.A,turn
 3sc@A
 ```
 
@@ -179,7 +164,7 @@ Móc vào labeled group → CrochetPARADE **phân bố đều** các mũi mới 
 - `5ch.A`: 5 chain có cùng label A (tạo label group)
 - `3sc@A`: Móc 3 sc vào nhóm A → phân bố đều vào 5 chain
 
-**Kết quả:** 3 sc được móc vào chain 1, 3, 5 (hoặc vị trí tương tự)
+**Kết quả:** 3 sc được móc vào chain 5, 3, 1
 
 ### Ví dụ 2: Shell stitch với labels
 
@@ -200,15 +185,14 @@ Móc vào labeled group → CrochetPARADE **phân bố đều** các mũi mới 
 
 **SAI:**
 ```
-sc.A,5sc,dc.A    # ❌ 2 mũi .A không liền kề
-3sc@A            # ❌ Lỗi!
+sc.A,5sc,dc.A,turn    # ❌ 2 mũi .A không liền kề
+sk,3sc@A              # ❌ Lỗi!
 ```
 
 **ĐÚNG:**
 ```
-sc.A[0],5sc,dc.A[1]    # ✅ Dùng indexed labels (Bài 6)
-3sc@A[0]
-3sc@A[1]
+sc.A[0],5sc,dc.A[1],turn    # ✅ Dùng indexed labels
+sk,3sc@A[0],3sc@A[1]
 ```
 
 ## 7. Indexed labels: `.A[0]`, `.A[1]`
@@ -229,27 +213,13 @@ Khi cần **nhiều labels giống nhau** (nhưng khác nhóm), dùng **index** 
 
 ```
 15ch,turn
-3sc,3ch.A[0],3sc,3ch.A[1],3sc,turn
+sk,3sc,3ch.A[0],3sc,3ch.A[1],3sc,turn
 2sc,3dc@A[0],2sc,3dc@A[1],2sc
 ```
 
 **Giải thích:**
 - Hàng 1: 2 nhóm chain, gắn label A[0] và A[1]
 - Hàng 2: Móc dc vào từng nhóm riêng biệt
-
-### Ví dụ 2: Granny square góc
-
-```
-ring
-[3dc,3ch.Corner[0]]*4
-ss@Corner[0]
-```
-
-**Giải thích:**
-- 4 góc, mỗi góc có 3 chain gắn label `Corner[0]`, `Corner[1]`, `Corner[2]`, `Corner[3]`
-- Nối về góc đầu tiên
-
-**Lưu ý:** Ở đây chỉ ví dụ index, thực tế pattern sẽ khác.
 
 ## 8. Label inheritance (Kế thừa nhãn)
 
