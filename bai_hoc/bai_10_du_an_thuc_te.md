@@ -3,6 +3,7 @@
 ## Mục tiêu bài học
 
 Sau bài học này, bạn sẽ:
+
 - Viết pattern amigurumi hoàn chỉnh (đầu, thân, tay, chân, ráp)
 - Hiểu filet crochet và cách tạo chart
 - Hiểu Irish crochet và cách ráp motifs
@@ -14,6 +15,7 @@ Sau bài học này, bạn sẽ:
 ### Phân tích requirement
 
 **Yêu cầu:**
+
 - Đầu: Hình cầu
 - Thân: Hình oval
 - Tay: 2 cái, hình trụ nhỏ
@@ -164,6 +166,7 @@ Xem file: `rabbit_amigurumi_complete.txt`
 ### Khái niệm Filet Crochet
 
 **Filet = Lưới**
+
 - **Filled square (ô đặc):** 3dc hoặc 4dc
 - **Empty square (ô trống):** dc, 2ch, sk, dc
 
@@ -611,26 +614,3 @@ Bây giờ, bạn có thể:
 **Hãy tiếp tục thực hành và sáng tạo!** 🧶✨
 
 ---
-
-## Tài nguyên bổ sung
-
-### Websites
-- **CrochetPARADE:** https://crochetparade.org
-- **Manual gốc:** Xem trên website
-
-### Files tham khảo
-- `manual.md` - Manual đầy đủ (tiếng Anh)
-- `Specifying attachment points.md` - Chi tiết về attachment
-- `defining_new_stitches.md` - Chi tiết về DEF
-
-### Community
-- Forum trên CrochetPARADE.org
-- Facebook groups (nếu có)
-
----
-
-**Tác giả khóa học:** Biên soạn từ manual gốc của Svetlin Tassev  
-**Giấy phép:** CC BY-NC-SA 4.0  
-**Cập nhật:** Tháng 2, 2026  
-
-**Cảm ơn bạn đã học!** 🙏

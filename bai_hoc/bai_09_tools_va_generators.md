@@ -3,6 +3,7 @@
 ## Mục tiêu bài học
 
 Sau bài học này, bạn sẽ:
+
 - Sử dụng Tools → Expand Instructions để debug
 - Sử dụng Tools → Simplify Instructions để nén pattern
 - Sử dụng Tools → Find Project Periphery để gắn label biên tự động
@@ -15,6 +16,7 @@ Sau bài học này, bạn sẽ:
 ### Mục đích
 
 **"Bung" pattern ra** để:
+
 - Debug từng mũi cụ thể
 - Chỉnh sửa individual stitches
 - Chuẩn bị cho Find Periphery
@@ -22,8 +24,9 @@ Sau bài học này, bạn sẽ:
 ### Chức năng
 
 **Expand làm gì:**
+
 - `3*[sc,dc]` → `[sc,dc],[sc,dc],[sc,dc]`
-- `4sc` → `sc,sc,sc,sc` (nếu run twice)
+- `4sc` → `sc,sc,sc,sc`
 - `$k=0$; sc.A[k++]*3` → `sc.A[0],sc.A[1],sc.A[2]`
 - Thay thế DEF (nếu có thể)
 
@@ -31,7 +34,7 @@ Sau bài học này, bạn sẽ:
 
 1. **Tools → Expand Instructions**
 2. Chọn options:
-   - `Substitute index counters?` → ✅ (đánh giá counters)
+   - `Substitute index counters?` → ✅ (tính counters)
    - `Run twice?` → ✅ (bung hoàn toàn + enable cross-highlighting)
 3. Trả lời câu hỏi toán (chống nhầm lẫn)
 4. Click OK
@@ -39,12 +42,14 @@ Sau bài học này, bạn sẽ:
 ### Ví dụ
 
 **Trước:**
+
 ```
 $k=0$
 [3sc.A[k++]]*3
 ```
 
 **Sau expand (run twice, substitute counters):**
+
 ```
 sc.A[0],sc.A[0],sc.A[0],sc.A[1],sc.A[1],sc.A[1],sc.A[2],sc.A[2],sc.A[2]
 ```
@@ -52,6 +57,7 @@ sc.A[0],sc.A[0],sc.A[0],sc.A[1],sc.A[1],sc.A[1],sc.A[2],sc.A[2],sc.A[2]
 ### Khi nào dùng?
 
 ✅ **Dùng khi:**
+
 - Debug pattern (mũi nào sai?)
 - Chỉnh sửa từng mũi cụ thể
 - Trước khi dùng Find Periphery
@@ -68,8 +74,9 @@ sc.A[0],sc.A[0],sc.A[0],sc.A[1],sc.A[1],sc.A[1],sc.A[2],sc.A[2],sc.A[2]
 ### Chức năng
 
 **Simplify làm gì:**
+
 - `[sc,dc],[sc,dc],[sc,dc]` → `3*[sc,dc]`
-- `sc.A[0],sc.A[1],sc.A[2]` → `$k=0$; [sc.A[k++]]*3` (nếu chọn option)
+- `sc.A[0],sc.A[1],sc.A[2]` → `$k=0$; [sc.A[k++]]*3`
 
 ### Cách sử dụng
 
@@ -83,11 +90,13 @@ sc.A[0],sc.A[0],sc.A[0],sc.A[1],sc.A[1],sc.A[1],sc.A[2],sc.A[2],sc.A[2]
 ### Ví dụ
 
 **Trước:**
+
 ```
 sc,sc,sc,dc,dc,dc,sc,sc,sc,dc,dc,dc
 ```
 
 **Sau simplify:**
+
 ```
 [3sc,3dc]*2
 ```
@@ -95,6 +104,7 @@ sc,sc,sc,dc,dc,dc,sc,sc,sc,dc,dc,dc
 ### Khi nào dùng?
 
 ✅ **Dùng khi:**
+
 - Sau khi expand và chỉnh sửa xong
 - Pattern dài, nhiều lặp lại
 - Cần chia sẻ pattern (gọn hơn)
@@ -110,10 +120,12 @@ sc,sc,sc,dc,dc,dc,sc,sc,sc,dc,dc,dc
 ### Vấn đề cần giải quyết
 
 Khi móc biên/viền:
+
 - Các mũi trên biên **không liên tiếp** trong code
 - Thứ tự móc ≠ thứ tự biên
 
 **Ví dụ:** Móc vuông, các mũi biên:
+
 - Hàng 0: mũi 0-9 (đáy)
 - Hàng 1: mũi 9 (cạnh phải)
 - ...
@@ -124,6 +136,7 @@ Khi móc biên/viền:
 ### Chức năng
 
 **Find Periphery làm gì:**
+
 - Tìm **đường biên** (edge graph)
 - **Sắp xếp** mũi theo thứ tự biên
 - **Gắn labels** tự động theo thứ tự biên
@@ -152,14 +165,13 @@ Khi móc biên/viền:
 9sc
 ```
 
-**Sau Find Periphery + Apply label `Border[k++]`:**
-```
-INDEX_ARRAY: k={0,1,2,3,4,5,6,7,8,9,18,27,36,...}
+**Sau Find Periphery + Apply label `Border[k]`:**
 
-10ch.Border[k++],turn
-[9sc.Border[k++],turn
-]*9
-9sc.Border[k++]
+```
+INDEX_ARRAY: k = {36, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 17, 16, 28, 29, 15, 14, 30, 31, 13, 12, 32, 33, 11, 10, 34, 35, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
+10*[ch.A[k]],9*[turn
+sc.A[k],7sc,sc.A[k]],turn
+9*[sc.A[k]]
 ```
 
 → Biên được đánh số theo thứ tự liên tiếp!
@@ -167,6 +179,7 @@ INDEX_ARRAY: k={0,1,2,3,4,5,6,7,8,9,18,27,36,...}
 ### Custom Periphery Editor
 
 Nếu tự động không đúng:
+
 1. Click **Edit edges**
 2. Nhập edges thủ công: `stitch1 -- stitch2`
 3. Hoặc Alt+Click trên 3D canvas
@@ -175,6 +188,7 @@ Nếu tự động không đúng:
 ### Khi nào dùng?
 
 ✅ **Dùng khi:**
+
 - Móc biên/viền (edging, border)
 - Ráp mảnh (joining motifs)
 - Lace phức tạp
@@ -199,18 +213,26 @@ Nếu tự động không đúng:
 ```
 # Ví dụ: Circumference = 36
 ring
-6sc
-12sc
-18sc
-24sc
-30sc
-36sc
-[36sc]*6
-30sc
-24sc
-18sc
-12sc
-6sc
+sc5inc
+3sc2inc,sc3inc,sc2inc
+sc,2*[sc2inc,sc],sc2inc,2sc,sc2inc,sc,sc2inc
+sc2inc,4*[2sc,sc2inc],3sc
+3sc,2*[sc2inc,4sc],sc2inc,5sc,sc2inc,sc
+2sc,2*[sc2inc,5sc],sc2inc,6sc,sc2inc,3sc
+3sc,2*[sc2inc,9sc],sc2inc,5sc
+sc2inc,15sc,sc2inc,15sc
+28sc,sc2inc,5sc
+23sc,sc2inc,11sc
+17sc,sc2tog,17sc
+sc2tog,33sc
+13sc,sc2tog,15sc,sc2tog,2sc
+5sc,2*[sc2tog,9sc],sc2tog,3sc
+sc2tog,2*[5sc,sc2tog],6sc,sc2tog,5sc
+sc2tog,3*[4sc,sc2tog],5sc
+2sc,3*[sc2tog,2sc],sc2tog,3sc,sc2tog
+sc2tog,3*[sc,sc2tog],2sc,sc2tog,sc
+sc2tog,sc3tog,3sc2tog
+sc5tog
 ```
 
 → Hình cầu hoàn hảo!
@@ -280,6 +302,7 @@ TRANSFORM_OBJECT: 1,5.2,3.1,-2.0,0.5,1.2,0.0
 ### Khi nào dùng?
 
 ✅ **Dùng khi:**
+
 - Amigurumi nhiều mảnh
 - Appliqués
 - Irish crochet (ráp motifs)
@@ -311,6 +334,7 @@ BACKGROUND: White         # Màu nền
 ### Bài tập 1: Expand và Simplify
 
 **Yêu cầu:**
+
 1. Viết pattern: `[3sc,2dc]*5`
 2. Expand (run twice)
 3. Chỉnh sửa: Thay dc thứ 3 thành hdc
@@ -349,12 +373,14 @@ BACKGROUND: White         # Màu nền
 <summary>Đáp án</summary>
 
 **Cần khi:**
+
 1. Móc biên/viền cho khăn, chăn
 2. Ráp mảnh (granny squares, motifs)
 3. Lace có thứ tự móc phức tạp
 4. Pick up stitches dọc cạnh hàng
 
 **Không cần khi:**
+
 - Pattern đơn giản, móc theo thứ tự
 - Móc vòng tròn đơn giản
 - Không cần labels biên
@@ -373,94 +399,25 @@ BACKGROUND: White         # Màu nền
 **Kết quả (approximate):**
 ```
 ring
-6sc         # V1
-12sc        # V2
-18sc        # V3
-24sc        # V4
-30sc        # V5
-[30sc]*n    # V6-...: Giữ 30
-24sc        # Giảm về 24
-18sc        # Giảm về 18
-12sc        # Giảm về 12
-6sc         # Giảm về 6
+sc5inc
+3sc2inc,sc3inc,sc2inc
+sc,2*[sc2inc,sc],sc2inc,2sc,sc2inc,sc,sc2inc
+sc2inc,4*[2sc,sc2inc],3sc
+5sc,2*[sc2inc,6sc],sc2inc,sc
+4sc,2*[sc2inc,7sc],sc2inc,3sc
+4sc,sc2inc,13sc,sc2inc,8sc
+sc2inc,28sc
+24sc,sc2tog,4sc
+7sc,sc2tog,13sc,sc2tog,5sc
+2sc,2*[sc2tog,7sc],sc2tog,5sc
+sc2tog,2*[6sc,sc2tog],6sc
+2sc,3*[sc2tog,2sc],sc2tog,3sc,sc2tog
+sc2tog,3*[sc,sc2tog],2sc,sc2tog,sc
+sc2tog,sc3tog,3sc2tog
+sc5tog
 ```
-
-**Structure:**
-- Tăng 6 mũi mỗi vòng đến 30
-- Giữ 30 vài vòng (tùy tỷ lệ)
-- Giảm 6 mũi mỗi vòng về 6
-- Đóng lỗ
 
 </details>
-
-## Pattern thực tế
-
-### Pattern 1: Khăn với biên tự động
-
-```
-# Khăn vuông với biên
-COLOR: Blue
-20ch,turn
-[19sc,turn
-]*19
-19sc
-
-# Tính toán
-# shift+Enter
-
-# Expand (Tools → Expand, run twice)
-
-# Find Periphery (Tools → Find Periphery)
-# → Apply label: Border[k++]
-# → Save as INDEX_ARRAY
-
-# Kết quả: Biên được đánh số tự động
-# Có thể móc viền:
-COLOR: Red
-[$m=0$
-sc@Border[m++]]*80   # 80 = tổng số mũi biên
-```
-
-### Pattern 2: Amigurumi head (Sphere Generator)
-
-```
-# Tạo bằng Generate Sphere
-# Circumference: 36
-
-COLOR: Beige
-ring
-6sc
-12sc
-18sc
-24sc
-30sc
-36sc
-[36sc]*8
-30sc
-24sc
-18sc
-12sc
-6sc
-```
-
-### Pattern 3: Mũ beanie (Axial Generator)
-
-```
-# Tạo bằng Generate Axially Symmetric Shape
-# Vẽ profile: Nửa cầu + trụ
-
-COLOR: Gray
-ring
-6sc
-12sc
-18sc
-24sc
-30sc
-36sc
-42sc
-48sc
-[48sc]*15    # Phần thân mũ
-```
 
 ## Tổng kết bài học
 
